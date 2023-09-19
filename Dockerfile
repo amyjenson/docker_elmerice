@@ -15,7 +15,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt update -o Acquire::CompressionTypes::Order::=gz && apt upgrade -y && apt install -y \
 	build-essential cmake git \
 	libblas-dev liblapack-dev libmumps-dev libparmetis-dev \
-	libnetcdf-dev libnetcdff-dev \
+	libnetcdf-dev libnetcdff-dev libhypre-dev \
 	mpich sudo less vim gmsh \
 	python3-numpy python3-scipy  python3-matplotlib  ipython3  \
 	python3-virtualenv  python3-dev  python3-pip  python3-sip
@@ -41,23 +41,23 @@ COPY .vim ${HOME}/.vim/
 
 # Clone the ElmerIce source code and make directories needed for compilation
 RUN git clone git://www.github.com/ElmerCSC/elmerfem \
-	  && mkdir elmerice/builddir
+	  && mkdir elmerfem/builddir
 #RUN git clone git://www.github.com/ElmerCSC/elmerfem -b elmerice elmerice \
 #	  && mkdir elmerice/builddir
 
 RUN git checkout devel 
 
 # Move to the builddir
-WORKDIR ${HOME}/elmerice/builddir
+WORKDIR ${HOME}/elmerfem/builddir
 
 # Run cmake with proper flags
-RUN	cmake ${HOME}/elmerice \
+RUN	cmake ${HOME}/elmerfem \
 		-DCMAKE_INSTALL_PREFIX=/usr/local/Elmer-devel \
 		-DCMAKE_C_COMPILER=/usr/bin/gcc \
 		-DCMAKE_Fortran_COMPILER=/usr/bin/gfortran \
 		-DWITH_OpenMP:BOOLEAN=TRUE -DWITH_MPI:BOOL=TRUE \
 		-DWITH_Mumps:BOOL=TRUE -DWITH_LUA:BOOL=TRUE \
-		-DWITH_Hypre:BOOL=FALSE -DWITH_Trilinos:BOOL=FALSE \
+		-DWITH_Hypre:BOOL=TRUE -DWITH_Trilinos:BOOL=FALSE \
 		-DWITH_ELMERGUI:BOOL=FALSE -DWITH_ElmerIce:BOOL=TRUE
 
 # compile the source code
