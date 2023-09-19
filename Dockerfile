@@ -1,5 +1,5 @@
 # Set the base image to the latest LTS version of Ubuntu
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 # Set the working directory to /home
 WORKDIR /home
