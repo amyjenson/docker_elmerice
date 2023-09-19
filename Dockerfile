@@ -40,7 +40,7 @@ WORKDIR ${HOME}
 COPY .vim ${HOME}/.vim/
 
 # Clone the ElmerIce source code and make directories needed for compilation
-RUN git clone git://www.github.com/ElmerCSC/elmerfem \
+RUN git clone https://github.com/ElmerCSC/elmerfem.git \
 	  && mkdir elmerfem/builddir
 #RUN git clone git://www.github.com/ElmerCSC/elmerfem -b elmerice elmerice \
 #	  && mkdir elmerice/builddir
