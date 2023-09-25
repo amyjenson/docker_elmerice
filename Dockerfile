@@ -20,6 +20,12 @@ RUN apt update -o Acquire::CompressionTypes::Order::=gz && apt upgrade -y && apt
 	python3-numpy python3-scipy  python3-matplotlib  ipython3  \
 	python3-virtualenv  python3-dev  python3-pip  python3-sip
 
+ENV MUMPS_ROOT="/usr/lib/x86_64-linux-gnu/" \
+    MUMPS_INC="/usr/include" \
+    HYPRE_ROOT="/usr/lib/x86_64-linux-gnu" \
+    HYPRE_INC="/usr/include/hypre"
+
+
 # export these paths before a new user is created otherwise, the users .bashrc
 # will overwrite these and render this useless. See:
 #          (https://stackoverflow.com/questions/28722548/)
@@ -46,7 +52,7 @@ RUN git clone https://github.com/ElmerCSC/elmerfem.git \
 #RUN git clone git://www.github.com/ElmerCSC/elmerfem -b elmerice elmerice \
 #	  && mkdir elmerice/builddir
 
-RUN git checkout devel 
+#RUN git checkout devel 
 
 # Move to the builddir
 WORKDIR ${HOME}/elmerfem/builddir
@@ -56,10 +62,18 @@ RUN	cmake ${HOME}/elmerfem \
 		-DCMAKE_INSTALL_PREFIX=/usr/local/Elmer-devel \
 		-DCMAKE_C_COMPILER=/usr/bin/gcc \
 		-DCMAKE_Fortran_COMPILER=/usr/bin/gfortran \
-		-DWITH_OpenMP:BOOLEAN=TRUE -DWITH_MPI:BOOL=TRUE \
-		-DWITH_Mumps:BOOL=TRUE -DWITH_LUA:BOOL=TRUE \
-		-DWITH_Hypre:BOOL=TRUE -DWITH_Trilinos:BOOL=FALSE \
+		-DWITH_OpenMP:BOOLEAN=TRUE \
+		-DWITH_MPI:BOOL=TRUE \
+		-DWITH_Mumps:BOOL=TRUE\
+		#-DMumps_LIBRARIES="${MUMPS_ROOT}/libpord.so;${MUMPS_ROOT}/libmumps_common.so;${MUMPS_ROOT}/libdmumps.so"\
+		-DMumps_INCLUDE_DIR="${MUMPS_INC}" \
+		-DWITH_LUA:BOOL=TRUE \
+		-DWITH_Trilinos:BOOL=FALSE \
+		-DWITH_Hypre:BOOL=TRUE \
+               #-DHypre_LIBRARIES="${HYPRE_ROOT}/libHYPRE.so" \
+               -DHypre_INCLUDE_DIR="${HYPRE_INC}" \
 		-DWITH_ELMERGUI:BOOL=FALSE -DWITH_ElmerIce:BOOL=TRUE
+
 
 # compile the source code
 RUN make && sudo make install
