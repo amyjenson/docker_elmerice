@@ -3,7 +3,7 @@
 
 To download this Elmer/Ice image, execute the command:   
 ```{bash}
-docker pull amyjenson/elmerice
+docker pull ajjenson/elmerice
 ```  
 This repo was copied from Andrew Nolan's [repository](https://github.com/andrewdnolan/docker-elmerice/tree/main) who used Nick Richmond's [docker image](https://hub.docker.com/r/nwrichmond/elmerice), as the template for this repo. The main difference being that this repo installs the elmerice devel branch and uses an older version of Ubuntu. 
 
