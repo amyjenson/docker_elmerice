@@ -11,7 +11,7 @@ This repo was copied from Andrew Nolan's [repository](https://github.com/andrewd
 
 After pulling the Elmer/Ice image with the command above, execute the command:  
 ```{bash}
-docker run -v $(pwd):/home/glacier/shared_directory -it --name=NAME amyjenson/elmerice  
+docker run -v $(pwd):/home/glacier/shared_directory -it --name=NAME ajjenson/elmerice  
 ```
 where `NAME` is your docker image instance name. A sensible choice might be `elmer`. The `-v $(pwd):/home/...` part of the command above mounts your current working directory as a shared directory with the Elmer/Ice container. Therefore, navigate to a sensible directory before you execute the command above. After the command is run, the container will start in the `$HOME` directory (`/home/glacier/`). Navigate to `/home/glacier/shared_directory/` to access the mounted volume. A mounted volume allows you to pass data back and forth from the container to the local machine.
 
